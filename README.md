@@ -7,6 +7,8 @@ Find-Object project, visit the [home page](http://introlab.github.io/find-object
 
 Binaries:
 ```bash
+# ROS Kinetic:
+ $ sudo apt-get install ros-kinetic-find-object-2d
 # ROS Jade:
  $ sudo apt-get install ros-jade-find-object-2d
 # ROS Indigo:
@@ -17,7 +19,7 @@ Binaries:
 
 Source:
 ```bash
-# Install ROS Groovy/Hydro/Indigo/Jade (catkin build):
+# Install ROS Groovy/Hydro/Indigo/Jade/Kinetic (catkin build):
  $ cd ~/catkin_ws
  $ git clone https://github.com/introlab/find-object.git src/find_object_2d
  $ catkin_make
