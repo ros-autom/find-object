@@ -2,6 +2,7 @@
 <launch>
   <arg name="static_objects" default="false"/>
   <arg name="slam_mode"	default="false"/>
+  <arg name="sim_mode"  default="false"/>
 
   <!-- Example finding 3D poses of the objects detected -->
   <!-- $roslaunch openni_launch openni.launch depth_registration:=true -->
@@ -11,10 +12,22 @@
     <param name="subscribe_depth" value="true" type="bool"/>
     <param name="objects_path" value="" type="str"/>
     <param name="object_prefix" value="object" type="str"/>
+
+    <!--For libgazebo_ros_openni_kinect plugin -->
+    <group if="$(sim_mode)">
+      <remap from="rgb/image_rect_color" to="camera/rgb/image_raw"/>
+      <remap from="depth_registered/image_raw" to="camera/depth/image_raw"/>
+      <remap from="depth_registered/camera_info" to="camera/depth/camera_info"/>
+    </group>
+
+    <!--For actual kinect sensor-->
+    <group unless="$(sim_mode)">
     <remap from="rgb/image_rect_color" to="camera/rgb/image_rect_color"/>
     <remap from="depth_registered/image_raw" to="camera/depth_registered/image_raw"/>
     <remap from="depth_registered/camera_info" to="camera/depth_registered/camera_info"/>
+    </group>
   </node>
+
   <!-- Example of tf synchronisation with the objectsStamped message -->
   <node name="tf_example" pkg="find_object_2d" type="tf_example" output="screen">
     <param name="map_frame_id" value="/map" type="string"/>
