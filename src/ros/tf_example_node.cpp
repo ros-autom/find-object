@@ -118,19 +118,8 @@ public:
 						pose.getRotation().x(), pose.getRotation().y(),
 						pose.getRotation().z(), pose.getRotation().w());
 
-				/*
-				if(static_objects_)
-				{
-					std::ofstream tmp("poses.txt");
-					tmp.close();
-					std::fstream fout("poses.txt");
-					if(fout.fail())
-						ROS_ERROR("++++++++++++++++++++++++++++++++++++++++++++++++++");
-					fout <<objects_id_[total_objects_]<<std::endl<<poses_[total_objects_]<<std::endl;
-					fout.close();
-
-				}
-				*/
+			
+				
 						ROS_INFO("Object_%d [x,y,z] [x,y,z,w] in \"%s\" frame: [%f,%f,%f] [%f,%f,%f,%f]",
 						id, msg->header.frame_id.c_str(),
 						poseCam.getOrigin().x(), poseCam.getOrigin().y(),
@@ -142,6 +131,21 @@ public:
 				poses_[total_objects_].y = pose.getOrigin().y();
 				poses_[total_objects_].z = pose.getOrigin().z();
 				objects_id_[total_objects_] = objectFrameId;
+				
+				if(static_objects_)
+				{
+					static std::ofstream poses_file;
+					poses_file.open("poses.txt", std::ofstream::out | std::ofstream::app);
+					
+				
+					if(poses_file.fail())
+						ROS_ERROR("Failed to open the poses.txt ");
+					else
+					{
+						poses_file <<objects_id_[total_objects_]<<std::endl<<poses_[total_objects_]<<std::endl;
+						poses_file.close();
+					}
+				}
 				total_objects_++;
 
 				ROS_INFO("The total number of object is %d ",total_objects_);

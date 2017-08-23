@@ -19,7 +19,7 @@
   <node name="tf_example" pkg="find_object_2d" type="tf_example" output="screen">
     <param name="map_frame_id" value="/map" type="string"/>
     <param name="object_prefix" value="object" type="str"/>
-    <!--param name="static_objects" value="$(arg static_objects)"/-->
+    <param name="static_objects" value="$(arg static_objects)"/>
   </node>
 
   <group unless="$(arg slam_mode)">
