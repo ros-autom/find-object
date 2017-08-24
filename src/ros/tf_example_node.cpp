@@ -73,25 +73,6 @@ public:
 				int id = (int) msg->objects.data[i];
 				std::string objectFrameId = QString("%1_%2").arg(objFramePrefix_.c_str()).arg(id).toStdString(); // "object_1", "object_2"
 
-
-				//if the new objects has already identified,return
-				if(static_objects_)
-				{
-					for (int i = 0; i < total_objects_; i++)
-					{
-
-						if (objectFrameId == objects_id_[i])
-						{
-							ROS_INFO("This objects is already registered ");
-							return;
-						}
-					}
-
-				}
-				//else read and save it
-				ROS_INFO("A new object has been detected");
-
-
 				tf::StampedTransform pose;
 				tf::StampedTransform poseCam;
 				try
@@ -106,10 +87,25 @@ public:
 				catch (tf::TransformException & ex)
 				{
 
-
 					ROS_WARN("%s", ex.what());
 					continue;
 				}
+
+				//if the new objects has already identified,return
+				if(static_objects_)
+				{
+					for (int i = 0; i < total_objects_; i++)
+					{
+						if (((std::abs(pose.getOrigin().x()-poses_[i].x)<1.0) && (std::abs(pose.getOrigin().y()-poses_[i].y)<1.0) && (std::abs(pose.getOrigin().z()-poses_[i].z)<1.0)))
+						{
+							ROS_ERROR("This objects is already registered ");
+							return;
+						}
+					}
+
+				}
+				//else read and save it
+				ROS_INFO("A new object has been detected");
 
 				// Here "pose" is the position of the object "id" in "/map" frame.
 				ROS_INFO("Object_%d [x,y,z] [x,y,z,w] in \"%s\" frame: [%f,%f,%f] [%f,%f,%f,%f]",
@@ -130,7 +126,7 @@ public:
 				poses_[total_objects_].x = pose.getOrigin().x();
 				poses_[total_objects_].y = pose.getOrigin().y();
 				poses_[total_objects_].z = pose.getOrigin().z();
-				objects_id_[total_objects_] = objectFrameId;
+				objects_id_[total_objects_]=QString("%1_%2").arg((objFramePrefix_.c_str())).arg(total_objects_).toStdString();
 				
 				if(static_objects_)
 				{
