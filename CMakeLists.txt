@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.5)
 SET(CMAKE_CXX_FLAGS "-Wno-deprecated-declarations ${CMAKE_CXX_FLAGS}")
+add_compile_options(-std=c++11)
 # Detect if it is called by catkin
 IF(CATKIN_TOPLEVEL OR CATKIN_BUILD_BINARY_PACKAGE OR CATKIN_SKIP_TESTING OR CATKIN_ENABLE_TESTING)
   SET(CATKIN_BUILD TRUE)
