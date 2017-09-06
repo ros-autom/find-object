@@ -34,7 +34,7 @@
 #include "geometry_msgs/Vector3.h"
 #include <iostream>
 #include <fstream>
-
+#include <pwd.h>
 class TfExample
 {
 public:
@@ -130,8 +130,16 @@ public:
 				
 				if(static_objects_)
 				{
+
+
+				    //grab the home dir
+					struct passwd *pw = getpwuid(getuid());
+					const char *homedir = pw->pw_dir;
+					std::string ss2 = "/poses.txt";
+					std::string ss3 = homedir + ss2;
+
 					static std::ofstream poses_file;
-					poses_file.open("poses.txt", std::ofstream::out | std::ofstream::app);
+					poses_file.open(ss3, std::ofstream::out | std::ofstream::app);
 					
 				
 					if(poses_file.fail())
