@@ -149,11 +149,18 @@ ELSE()
    add_executable(tf_example ros/tf_example_node.cpp)
    target_link_libraries(tf_example ${LIBRARIES})
    add_dependencies(tf_example ${${PROJECT_NAME}_EXPORTED_TARGETS})
-   
+	
+   add_executable(tf_warehouse ros/tf_warehouse.cpp)
+   target_link_libraries(tf_warehouse ${LIBRARIES})
+   add_dependencies(tf_warehouse ${${PROJECT_NAME}_EXPORTED_TARGETS})
+      
+
    IF(Qt5_FOUND)
       QT5_USE_MODULES(find_object_2d Widgets Core Gui Network PrintSupport)
       QT5_USE_MODULES(print_objects_detected Widgets Core Gui Network PrintSupport)
       QT5_USE_MODULES(tf_example Widgets Core Gui Network PrintSupport)
+      QT5_USE_MODULES(tf_warehouse Widgets Core Gui Network PrintSupport)
+
    ENDIF(Qt5_FOUND)
 
    ## Mark executables and/or libraries for installation
@@ -161,7 +168,8 @@ ELSE()
       find_object
       find_object_2d 
       print_objects_detected 
-      tf_example 
+      tf_example
+      tf_warehouse
       ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
       LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
       RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
