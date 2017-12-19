@@ -25,7 +25,7 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 //the maximum number of objects that can identify
-#define max_number_of_objects 10
+#define max_number_of_objects 100
 #include <ros/ros.h>
 #include <tf/transform_listener.h>
 #include <find_object_2d/ObjectsStamped.h>
@@ -114,8 +114,8 @@ public:
 						pose.getRotation().x(), pose.getRotation().y(),
 						pose.getRotation().z(), pose.getRotation().w());
 
-			
-				
+
+
 						ROS_INFO("Object_%d [x,y,z] [x,y,z,w] in \"%s\" frame: [%f,%f,%f] [%f,%f,%f,%f]",
 						id, msg->header.frame_id.c_str(),
 						poseCam.getOrigin().x(), poseCam.getOrigin().y(),
@@ -127,7 +127,7 @@ public:
 				poses_[total_objects_].y = pose.getOrigin().y();
 				poses_[total_objects_].z = pose.getOrigin().z();
 				objects_id_[total_objects_]=QString("%1_%2").arg((objFramePrefix_.c_str())).arg(total_objects_).toStdString();
-				
+
 				if(static_objects_)
 				{
 
@@ -140,8 +140,8 @@ public:
 
 					static std::ofstream poses_file;
 					poses_file.open(ss3, std::ofstream::out | std::ofstream::app);
-					
-				
+
+
 					if(poses_file.fail())
 						ROS_ERROR("Failed to open the poses.txt ");
 					else
